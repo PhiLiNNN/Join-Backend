@@ -1,0 +1,32 @@
+__pycache__/
+*.py[cod]
+
+db.sqlite3
+*.log
+*.pot
+*.pyc
+*.pyo
+
+
+venv/
+env/
+*.env
+.env
+
+*.local
+*.sqlite3
+*.db
+*.db-journal
+
+.vscode/
+.idea/
+
+# Dateien von Django und anderen Frameworks, die sensible Informationen enthalten
+*.secret
+*.key
+*.pem
+
+# Dateien von Logs und temporären Dateien
+*.log
+*.bak
+*.swp
