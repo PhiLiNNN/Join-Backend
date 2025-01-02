@@ -9,3 +9,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('check-email/', check_email, name='check-email'),
 ]
+
+
+
+
