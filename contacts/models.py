@@ -6,6 +6,7 @@ class Contacts(models.Model):
     phone = models.CharField(max_length=20, blank=True, null=True)
     colorCode = models.CharField(max_length=7, default='#FFFFFF')  
     textColorCode = models.CharField(max_length=7, default='#000000')  
+    selected = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -41,7 +42,7 @@ class Tasks(models.Model):
     priority = models.CharField(max_length=20, choices=[('urgent', 'Urgent'), 
                                                         ('medium', 'Medium'), 
                                                         ('low', 'Low')])
-    assigned_to = models.JSONField(default=list)
+    assigned_to = models.ManyToManyField(Contacts, related_name='tasks')
     subtasks = models.JSONField(default=list) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -50,8 +51,7 @@ class Tasks(models.Model):
         return self.title
 
     def get_assigned_users(self):
-        user_names = [user['userNames'] for user in self.assigned_to]
-        return ", ".join(user_names)
+        return ", ".join([contact.name for contact in self.assigned_to.all()])
     
     def get_subtasks(self):
         return self.subtasks

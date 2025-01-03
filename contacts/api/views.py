@@ -1,6 +1,6 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from .serializers import ContactsSerializer, BoardSerializer
+from .serializers import ContactsSerializer, TaskSerializer
 from contacts.models import Contacts, Tasks
 from rest_framework.decorators import api_view
 
@@ -32,7 +32,7 @@ def check_email(request):
     
 class BoardViewSet(viewsets.ModelViewSet):
     queryset = Tasks.objects.all()
-    serializer_class = BoardSerializer
+    serializer_class = TaskSerializer
     
     def create(self, request, *args, **kwargs):
         try:
