@@ -28,7 +28,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
-class Task(models.Model):
+class Tasks(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     due_date = models.DateField()
@@ -57,7 +57,7 @@ class Task(models.Model):
         return self.subtasks
     
 class Subtask(models.Model):
-    task = models.ForeignKey(Task, related_name='subtask_list', on_delete=models.CASCADE)
+    task = models.ForeignKey(Tasks, related_name='subtask_list', on_delete=models.CASCADE)
     description = models.CharField(max_length=255)
     done = models.BooleanField(default=False)
     
