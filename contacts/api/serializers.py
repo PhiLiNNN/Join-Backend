@@ -9,7 +9,16 @@ class ContactsSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tasks
-        fields = '__all__'
+        fields = [
+            'title',
+            'description',
+            'due_date',
+            'board',
+            'priority',
+            'subtasks',
+            'category',
+            'assigned_to',
+        ]
 
 class SubtaskSerializer(serializers.ModelSerializer):
     class Meta:

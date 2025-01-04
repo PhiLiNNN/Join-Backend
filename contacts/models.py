@@ -7,6 +7,7 @@ class Contacts(models.Model):
     colorCode = models.CharField(max_length=7, default='#FFFFFF')  
     textColorCode = models.CharField(max_length=7, default='#000000')  
     selected = models.BooleanField(default=False)
+    initials = models.CharField(max_length=2, default='')
 
     def __str__(self):
         return self.name
@@ -43,7 +44,7 @@ class Tasks(models.Model):
                                                         ('medium', 'Medium'), 
                                                         ('low', 'Low')])
     assigned_to = models.ManyToManyField(Contacts, related_name='tasks')
-    subtasks = models.JSONField(default=list) 
+    subtasks = models.JSONField(default=dict, blank=True, null=False) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -54,7 +55,10 @@ class Tasks(models.Model):
         return ", ".join([contact.name for contact in self.assigned_to.all()])
     
     def get_subtasks(self):
-        return self.subtasks
+        return {
+        "items": self.subtasks.get("items", []),
+        "completed": self.subtasks.get("completed", [])
+    }
     
 class Subtask(models.Model):
     task = models.ForeignKey(Tasks, related_name='subtask_list', on_delete=models.CASCADE)
