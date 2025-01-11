@@ -32,7 +32,7 @@ def check_email(request):
     
 class BoardViewSet(viewsets.ModelViewSet):
     queryset = Tasks.objects.all()
-    serializer_class = TaskSerializer
+    serializer_class =    TaskSerializer
     
     def create(self, request, *args, **kwargs):
         try:
