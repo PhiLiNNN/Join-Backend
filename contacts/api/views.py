@@ -1,8 +1,10 @@
+import traceback
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from .serializers import ContactsSerializer, TaskSerializer
 from contacts.models import Contacts, Tasks
 from rest_framework.decorators import api_view
+
 
 class ContactsViewSet(viewsets.ModelViewSet):
     queryset = Contacts.objects.all()
@@ -17,7 +19,7 @@ class ContactsViewSet(viewsets.ModelViewSet):
         
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    
+
     
 @api_view(['GET'])
 def check_email(request):
@@ -32,9 +34,10 @@ def check_email(request):
     
 class BoardViewSet(viewsets.ModelViewSet):
     queryset = Tasks.objects.all()
-    serializer_class =    TaskSerializer
+    serializer_class = TaskSerializer
     
     def create(self, request, *args, **kwargs):
+        print("Request data:", request.data)
         try:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True) 
@@ -42,4 +45,7 @@ class BoardViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
         except Exception as e:
+            import traceback
+            print(traceback.format_exc())
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+

@@ -1,7 +1,9 @@
 from datetime import date
 from django.db import models
+from django.contrib.auth.models import User
 
 class Contacts(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
@@ -53,7 +55,7 @@ class Tasks(models.Model):
             ('low', 'Low')
         ]
     )
-    # assigned_to = models.ManyToManyField(Contacts, related_name='tasks')
+    assigned_to = models.ManyToManyField(Contacts, related_name='tasks')
     # subtasks = models.JSONField(default=dict, blank=True, null=False) 
     # created_at = models.DateTimeField(auto_now_add=True)
     # updated_at = models.DateTimeField(auto_now=True)
@@ -77,3 +79,5 @@ class Subtask(models.Model):
     
     def __str__(self):
         return f"Subtask: {self.description}"
+
+
